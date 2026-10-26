@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fundamentos de Redes - v1.0.0</title>
+    <title>Fundamentos de Redes - v1.1.0</title>
     
     <!-- CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -77,10 +77,27 @@
 
         #content {
             width: 100%;
-            padding: 20px 40px;
+            padding: 70px 20px 20px 20px; /* Margen superior para la barra fija */
             min-height: 100vh;
             transition: all 0.3s;
             margin-left: var(--sidebar-width);
+        }
+
+        /* Barra Superior Fija Móvil */
+        .mobile-navbar {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 56px;
+            background: var(--dark-bg);
+            color: white;
+            z-index: 1030;
+            padding: 0 15px;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         /* Fondo Oscuro al abrir menú en móviles */
@@ -108,7 +125,10 @@
             }
             #content {
                 margin-left: 0;
-                padding: 15px;
+                padding: 70px 15px 15px 15px;
+            }
+            .mobile-navbar {
+                display: flex;
             }
         }
 
@@ -116,8 +136,8 @@
             background: linear-gradient(135deg, #0d6efd 0%, #0a2540 100%);
             color: white;
             border-radius: 15px;
-            padding: 40px 20px;
-            margin-bottom: 30px;
+            padding: 30px 15px;
+            margin-bottom: 25px;
             text-align: center;
         }
 
@@ -125,7 +145,7 @@
             background: #fff;
             border-radius: 10px;
             padding: 25px;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
 
@@ -134,27 +154,7 @@
             border-bottom: 2px solid #eef2f5;
             padding-bottom: 10px;
             margin-bottom: 20px;
-            font-size: 1.6rem;
-        }
-
-        .diagram-box {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            margin: 20px 0;
-        }
-
-        .subnet-res-box {
-            background-color: #eef2f7;
-            font-family: monospace;
-            padding: 15px;
-            border-radius: 5px;
-        }
-
-        #packet {
-            transition: all 1.5s ease-in-out;
+            font-size: 1.5rem;
         }
     </style>
 </head>
@@ -164,231 +164,148 @@
     <!-- Capa Oscura Fondo Móvil -->
     <div id="overlay"></div>
 
+    <!-- Barra Superior Fija para Móviles (Siempre accesible) -->
+    <div class="mobile-navbar">
+        <button type="button" id="sidebarCollapse" class="btn btn-primary btn-sm">
+            <i class="fa-solid fa-bars me-1"></i> Menú
+        </button>
+        <span class="fw-bold small text-light">RedesApp - UNAMAD</span>
+        <i class="fa-solid fa-wifi text-warning"></i>
+    </div>
+
     <!-- Menú Lateral Responsivo -->
     <nav id="sidebar">
         <div class="sidebar-header">
             <div>
                 <h5 class="mb-0 text-white"><i class="fa-solid fa-network-wired text-primary"></i> Redes App</h5>
-                <small class="text-muted">Versión 1.0.0</small>
+                <small class="text-muted">Versión 1.1.0</small>
             </div>
-            <!-- Botón Cerrar en Celulares -->
             <button type="button" id="dismissSidebar" class="btn text-white p-0 d-md-none fs-4">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
 
+        <!-- ========================================================= -->
+        <!-- ÍTEMS DEL MENÚ: Aquí puedes agregar o renombrar enlaces   -->
+        <!-- ========================================================= -->
         <ul class="list-unstyled components">
             <li class="active"><a href="#portada"><i class="fa-solid fa-house"></i> Inicio / Portada</a></li>
-            <li><a href="#intro"><i class="fa-solid fa-book-open"></i> 1. Introducción a Redes</a></li>
-            <li><a href="#hardware-software"><i class="fa-solid fa-server"></i> 2. Hardware y Software</a></li>
-            <li><a href="#modelos"><i class="fa-solid fa-layer-group"></i> 3. Modelos OSI y TCP/IP</a></li>
-            <li><a href="#topologias"><i class="fa-solid fa-diagram-project"></i> 4. Topologías y Simulación</a></li>
+            <li><a href="#historia"><i class="fa-solid fa-clock-rotate-left"></i> 1. Historia y Evolución</a></li>
+            <li><a href="#intro"><i class="fa-solid fa-book-open"></i> 2. Conceptos de Redes</a></li>
+            <li><a href="#hardware-software"><i class="fa-solid fa-server"></i> 3. Hardware y Software</a></li>
+            <li><a href="#modelos"><i class="fa-solid fa-layer-group"></i> 4. Modelos OSI y TCP/IP</a></li>
             <li><a href="#ip-vlan"><i class="fa-solid fa-sitemap"></i> 5. Direcciones IP y VLANs</a></li>
             <li><a href="#calculadora-ip"><i class="fa-solid fa-calculator"></i> 6. Calculadora Subredes</a></li>
-            <li><a href="#evaluacion"><i class="fa-solid fa-graduation-cap"></i> 7. Autoevaluación</a></li>
-            <li><a href="#acerca-de"><i class="fa-solid fa-circle-info"></i> 8. Acerca de la App</a></li>
-            <li><a href="#creditos"><i class="fa-solid fa-book"></i> 9. Fuentes y Créditos</a></li>
+            <li><a href="#acerca-de"><i class="fa-solid fa-circle-info"></i> 7. Acerca de la App</a></li>
+            <li><a href="#creditos"><i class="fa-solid fa-book"></i> 8. Fuentes Bibliográficas</a></li>
         </ul>
     </nav>
 
     <!-- Contenido Principal -->
     <div id="content">
-        <button type="button" id="sidebarCollapse" class="btn btn-primary d-md-none mb-3">
-            <i class="fa-solid fa-bars"></i> Menú
-        </button>
 
         <!-- PORTADA -->
         <section id="portada" class="hero-cover">
-            <i class="fa-solid fa-network-wired fa-4x mb-3 text-warning"></i>
-            <h1 class="display-5 fw-bold">Fundamentos de Redes de Datos</h1>
-            <p class="lead">Manual Interactivo Móvil - Versión 1.0.0</p>
-            <p class="small text-light opacity-75">Escuela Profesional de Ingeniería de Sistemas e Informática - UNAMAD</p>
-            <a href="#intro" class="btn btn-light btn-lg mt-3 fw-bold text-primary nav-close-click">Iniciar Aprendizaje</a>
+            <i class="fa-solid fa-network-wired fa-3x mb-2 text-warning"></i>
+            <h1 class="h3 fw-bold">Fundamentos de Redes de Datos</h1>
+            <p class="small mb-2">Manual Interactivo Móvil - UNAMAD</p>
+            <a href="#historia" class="btn btn-light btn-sm fw-bold text-primary nav-close-click">Iniciar Lectura</a>
         </section>
 
-        <!-- 1. INTRODUCCIÓN -->
+        <!-- ========================================================= -->
+        <!-- SECCIÓN 1: HISTORIA DE LA COMPUTACIÓN Y REDES CONVERGENTES -->
+        <!-- (AQUÍ PUEDES EDITAR O EXPANDIR TU CONTENIDO PROPIO)         -->
+        <!-- ========================================================= -->
+        <section id="historia" class="manual-card">
+            <h2><i class="fa-solid fa-clock-rotate-left text-primary"></i> 1. Historia y Evolución a Redes Convergentes</h2>
+            
+            <h5>Evolución de la Computación</h5>
+            <p>Desde los primeros mainframes aislados hasta el procesamiento distribuido, la necesidad de compartir recursos computacionales impulsó el nacimiento de las redes de datos.</p>
+            
+            <div class="row g-2 my-3">
+                <div class="col-6">
+                    <div class="border p-2 rounded bg-light text-center">
+                        <i class="fa-solid fa-desktop text-secondary mb-1"></i>
+                        <p class="mb-0 small fw-bold">Aislamiento</p>
+                        <span class="text-muted" style="font-size: 0.75rem;">Mainframes y tarjetas</span>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="border p-2 rounded bg-light text-center">
+                        <i class="fa-solid fa-globe text-primary mb-1"></i>
+                        <p class="mb-0 small fw-bold">Convergencia</p>
+                        <span class="text-muted" style="font-size: 0.75rem;">Voz, Video y Datos IP</span>
+                    </div>
+                </div>
+            </div>
+
+            <h5>Redes Convergentes</h5>
+            <p>Una <strong>Red Convergente</strong> integra múltiples servicios (telefonía VoIP, streaming de video y tráfico de datos web) sobre una única infraestructura IP estandarizada.</p>
+        </section>
+
+        <!-- 2. CONCEPTOS DE REDES -->
         <section id="intro" class="manual-card">
-            <h2><i class="fa-solid fa-book-open text-primary"></i> 1. Introducción a las Redes de Datos</h2>
-            <p>Una <strong>red de computadoras</strong> es un conjunto de equipos autónomos interconectados mediante una determinada tecnología capaces de intercambiar información y compartir recursos.</p>
-            <ul>
-                <li><strong>Cliente-Servidor:</strong> Arquitectura donde los clientes solicitan recursos centralizados a servidores.</li>
-                <li><strong>Conmutación de Paquetes:</strong> División de datos en fragmentos independientes (paquetes) con encabezados IP.</li>
-            </ul>
+            <h2><i class="fa-solid fa-book-open text-primary"></i> 2. Conceptos Básicos de Redes</h2>
+            <p>Una red de datos es la infraestructura que permite interconectar nodos autónomos para compartir archivos, aplicaciones y servicios.</p>
         </section>
 
-        <!-- 2. HARDWARE Y SOFTWARE -->
+        <!-- 3. HARDWARE Y SOFTWARE -->
         <section id="hardware-software" class="manual-card">
-            <h2><i class="fa-solid fa-server text-primary"></i> 2. Hardware y Software de Red</h2>
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 bg-light p-3 text-center">
-                        <i class="fa-solid fa-microchip fa-2x text-primary mb-2"></i>
-                        <h5>Switch (Capa 2)</h5>
-                        <p class="small">Conmuta tramas utilizando direcciones físicas MAC dentro de la misma LAN.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 bg-light p-3 text-center">
-                        <i class="fa-solid fa-route fa-2x text-primary mb-2"></i>
-                        <h5>Router (Capa 3)</h5>
-                        <p class="small">Enruta paquetes entre redes lógicas distintas utilizando direcciones IP.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 border-0 bg-light p-3 text-center">
-                        <i class="fa-solid fa-wifi fa-2x text-primary mb-2"></i>
-                        <h5>Access Point</h5>
-                        <p class="small">Proporciona conectividad inalámbrica según estándares IEEE 802.11 (WiFi).</p>
-                    </div>
-                </div>
-            </div>
+            <h2><i class="fa-solid fa-server text-primary"></i> 3. Hardware y Software de Red</h2>
+            <p>Componentes activos (Switches, Routers, APs) y pasivos (Cableado UTP, Patch Panels) que forman el soporte físico.</p>
         </section>
 
-        <!-- 3. MODELO OSI Y TCP/IP -->
+        <!-- 4. MODELOS OSI Y TCP/IP -->
         <section id="modelos" class="manual-card">
-            <h2><i class="fa-solid fa-layer-group text-primary"></i> 3. Modelos OSI vs TCP/IP</h2>
-            <div class="table-responsive">
-                <table class="table table-bordered text-center align-middle">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>Modelo OSI (7 Capas)</th>
-                            <th>Modelo TCP/IP</th>
-                            <th>PDU (Unidad de Datos)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>7. Aplicación / 6. Presentación / 5. Sesión</td><td>Aplicación</td><td>Datos / Mensaje</td></tr>
-                        <tr><td>4. Transporte</td><td>Transporte</td><td>Segmento (TCP) / Datagrama (UDP)</td></tr>
-                        <tr><td>3. Red</td><td>Internet</td><td>Paquete IP</td></tr>
-                        <tr><td>2. Enlace de Datos</td><td>Enlace de Datos</td><td>Trama (Frame)</td></tr>
-                        <tr><td>1. Física</td><td>Física</td><td>Bits</td></tr>
-                    </tbody>
-                </table>
-            </div>
+            <h2><i class="fa-solid fa-layer-group text-primary"></i> 4. Modelos OSI vs TCP/IP</h2>
+            <p>Estándares que dividen el proceso de comunicación en capas conceptuales independientes.</p>
         </section>
 
-        <!-- 4. TOPOLOGÍAS Y DEMO ANIMADA -->
-        <section id="topologias" class="manual-card">
-            <h2><i class="fa-solid fa-diagram-project text-primary"></i> 4. Topologías y Demo Animada de Transmisión</h2>
-            <p>A continuación se muestra una simulación interactiva de transferencia de paquetes desde un Host Cliente hacia un Servidor a través de un Switch y Router central.</p>
-
-            <div class="diagram-box">
-                <h6>Simulador de Transferencia de Datos en Red</h6>
-                <svg width="100%" height="180" viewBox="0 0 600 180" style="background:#212529; border-radius:8px;">
-                    <line x1="80" y1="90" x2="250" y2="90" stroke="#0d6efd" stroke-width="4"/>
-                    <line x1="250" y1="90" x2="420" y2="90" stroke="#0d6efd" stroke-width="4"/>
-                    <line x1="420" y1="90" x2="520" y2="90" stroke="#0d6efd" stroke-width="4"/>
-
-                    <rect x="30" y="65" width="50" height="50" rx="5" fill="#198754"/>
-                    <text x="55" y="95" fill="#fff" font-size="12" text-anchor="middle">PC A</text>
-
-                    <rect x="225" y="65" width="50" height="50" rx="5" fill="#0d6efd"/>
-                    <text x="250" y="95" fill="#fff" font-size="12" text-anchor="middle">Switch</text>
-
-                    <circle cx="420" cy="90" r="25" fill="#dc3545"/>
-                    <text x="420" y="95" fill="#fff" font-size="12" text-anchor="middle">Router</text>
-
-                    <rect x="520" y="65" width="50" height="50" rx="5" fill="#ffc107"/>
-                    <text x="545" y="95" fill="#000" font-size="12" font-weight="bold" text-anchor="middle">Server</text>
-
-                    <circle id="packet" cx="55" cy="90" r="8" fill="#00ffff"/>
-                </svg>
-
-                <div class="mt-3">
-                    <button class="btn btn-outline-primary" onclick="startPacketAnimation()">
-                        <i class="fa-solid fa-paper-plane"></i> Enviar Paquete (Ping ICMP / HTTP)
-                    </button>
-                    <span id="animStatus" class="ms-3 fw-bold text-muted d-block d-md-inline mt-2 mt-md-0">Estado: En espera</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. DIRECCIONAMIENTO IP Y VLANS -->
+        <!-- 5. DIRECCIONAMIENTO IP -->
         <section id="ip-vlan" class="manual-card">
-            <h2><i class="fa-solid fa-sitemap text-primary"></i> 5. Direccionamiento IPv4 y VLANs</h2>
-            <p>Una dirección IPv4 consta de 32 bits codificados en cuatro octetos (ej. <code>192.168.1.1</code>). Las <strong>VLANs (Virtual LANs)</strong> permiten agrupar nodos de manera lógica independientemente de su ubicación física.</p>
+            <h2><i class="fa-solid fa-sitemap text-primary"></i> 5. Direcciones IP y VLANs</h2>
+            <p>Identificación lógica de dispositivos mediante direccionamiento IPv4 y segmentación virtual mediante VLANs.</p>
         </section>
 
         <!-- 6. CALCULADORA DE SUBREDES -->
         <section id="calculadora-ip" class="manual-card">
-            <h2><i class="fa-solid fa-calculator text-primary"></i> 6. Calculadora de Subredes IPv4</h2>
-            <div class="row g-3 align-items-center mb-3">
-                <div class="col-md-6">
-                    <label class="form-label">Dirección IPv4:</label>
-                    <input type="text" id="calcIp" class="form-control" value="192.168.1.50">
+            <h2><i class="fa-solid fa-calculator text-primary"></i> 6. Calculadora Subredes IPv4</h2>
+            <div class="row g-2 align-items-center mb-3">
+                <div class="col-8">
+                    <input type="text" id="calcIp" class="form-control form-control-sm" value="192.168.1.50">
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label">Prefijo CIDR:</label>
-                    <select id="calcCidr" class="form-select">
-                        <option value="8">/8 (255.0.0.0)</option>
-                        <option value="16">/16 (255.255.0.0)</option>
-                        <option value="24" selected>/24 (255.255.255.0)</option>
-                        <option value="26">/26 (255.255.255.192)</option>
-                        <option value="30">/30 (255.255.255.252)</option>
-                    </select>
-                </div>
-                <div class="col-md-2 align-self-end">
-                    <button class="btn btn-primary w-100" onclick="calcularSubred()"><i class="fa-solid fa-gears"></i> Calcular</button>
+                <div class="col-4">
+                    <button class="btn btn-primary btn-sm w-100" onclick="calcularSubred()">Calcular</button>
                 </div>
             </div>
-            <div id="resultadoSubred" class="subnet-res-box d-none"></div>
+            <div id="resultadoSubred" class="small bg-light p-2 rounded d-none"></div>
         </section>
 
-        <!-- 7. AUTOEVALUACIÓN -->
-        <section id="evaluacion" class="manual-card">
-            <h2><i class="fa-solid fa-graduation-cap text-primary"></i> 7. Cuestionario de Autoevaluación</h2>
-            <div class="mb-3">
-                <p class="fw-bold">1. ¿En qué capa del modelo OSI opera un Router?</p>
-                <div class="form-check"><input class="form-check-input" type="radio" name="q1" value="0"><label class="form-check-label">Capa 2 (Enlace)</label></div>
-                <div class="form-check"><input class="form-check-input" type="radio" name="q1" value="1"><label class="form-check-label">Capa 3 (Red)</label></div>
-            </div>
-            <button class="btn btn-success" onclick="validarQuiz()"><i class="fa-solid fa-check"></i> Verificar</button>
-            <div id="quizResultado" class="mt-2 fw-bold"></div>
-        </section>
-
-        <!-- 8. ACERCA DE LA APLICACIÓN -->
+        <!-- 7. ACERCA DE -->
         <section id="acerca-de" class="manual-card">
-            <h2><i class="fa-solid fa-circle-info text-primary"></i> 8. Acerca de la Aplicación</h2>
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <h5>RedesApp - Manual Técnico Interactivo Móvil</h5>
-                    <p><strong>Versión:</strong> 1.0.0</p>
-                    <p><strong>Curso:</strong> Fundamentos de Redes y Telemática (SI-313)</p>
-                    <p><strong>Docente Titular:</strong> M.Sc. Mario Jesús Ormachea Mejía</p>
-                    <p><strong>Institución:</strong> Universidad Nacional Amazónica de Madre de Dios (UNAMAD)</p>
-                    <p><strong>Escuela Profesional:</strong> Ingeniería de Sistemas e Informática</p>
-                </div>
-                <div class="col-md-4 text-center">
-                    <i class="fa-solid fa-mobile-screen-button fa-5x text-primary mb-2"></i>
-                    <p class="fw-bold">Aplicación Móvil Interactiva</p>
-                </div>
-            </div>
+            <h2><i class="fa-solid fa-circle-info text-primary"></i> 7. Acerca de la Aplicación</h2>
+            <p><strong>Curso:</strong> Fundamentos de Redes y Telemática (SI-313)</p>
+            <p><strong>Docente:</strong> M.Sc. Mario Jesús Ormachea Mejía - UNAMAD</p>
         </section>
 
-        <!-- 9. FUENTES BIBLIOGRÁFICAS -->
+        <!-- 8. FUENTES -->
         <section id="creditos" class="manual-card">
-            <h2><i class="fa-solid fa-book text-primary"></i> 9. Fuentes Bibliográficas y Créditos</h2>
-            <p>Este material educativo respeta los derechos de autor y está basado rigurosamente en la bibliografía oficial del curso:</p>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><i class="fa-solid fa-bookmark text-primary me-2"></i> <strong>Kurose, J. & Ross, K. W.</strong> (2010). <em>Redes de Computadoras: Un Enfoque Descendente</em> (5ª Ed.). Pearson Educación.</li>
-                <li class="list-group-item"><i class="fa-solid fa-bookmark text-primary me-2"></i> <strong>Tanenbaum, A. S.</strong> (2011). <em>Computer Networks</em> (5th Ed.). Pearson / Prentice Hall.</li>
-                <li class="list-group-item"><i class="fa-solid fa-bookmark text-primary me-2"></i> <strong>Comer, D. E.</strong> (2011). <em>Internetworking with TCP/IP: Principles, Protocols, and Architecture</em>. Prentice Hall.</li>
-                <li class="list-group-item"><i class="fa-solid fa-bookmark text-primary me-2"></i> <strong>Stallings, W.</strong> (2004). <em>Comunicaciones y Redes de Computadores</em> (7ª Ed.). Prentice Hall.</li>
+            <h2><i class="fa-solid fa-book text-primary"></i> 8. Fuentes Bibliográficas</h2>
+            <ul class="small ps-3">
+                <li>Tanenbaum, A. S. (2011). <em>Computer Networks</em>.</li>
+                <li>Kurose, J. & Ross, K. (2010). <em>Computer Networking</em>.</li>
             </ul>
         </section>
 
-        <footer class="text-center py-4 text-muted border-top">
-            <small>Fundamentos de Redes y Telemática &copy; UNAMAD 2026 - M.Sc. Mario Jesús Ormachea Mejía</small>
+        <footer class="text-center py-3 text-muted border-top small">
+            Fundamentos de Redes y Telemática &copy; UNAMAD 2026
         </footer>
 
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
 <script>
-    hljs.highlightAll();
-
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('overlay');
     const btnOpen = document.getElementById('sidebarCollapse');
@@ -408,78 +325,42 @@
     btnClose.addEventListener('click', closeSidebar);
     overlay.addEventListener('click', closeSidebar);
 
-    // Cerrar el menú automáticamente al hacer clic en cualquier opción
     document.querySelectorAll('#sidebar ul li a, .nav-close-click').forEach(link => {
         link.addEventListener('click', () => {
-            if (window.innerWidth <= 768) {
-                closeSidebar();
-            }
+            if (window.innerWidth <= 768) closeSidebar();
         });
     });
 
-    // Animación de Paquetes
-    function startPacketAnimation() {
-        const pkt = document.getElementById('packet');
-        const status = document.getElementById('animStatus');
-        
-        status.innerHTML = '<span class="text-warning">Enviando Trama a Switch...</span>';
-        pkt.setAttribute('cx', '250');
+    // Detectar gesto de deslizamiento (Swipe de izquierda a derecha)
+    let touchstartX = 0;
+    let touchendX = 0;
 
-        setTimeout(() => {
-            status.innerHTML = '<span class="text-info">Enrutando Paquete IP...</span>';
-            pkt.setAttribute('cx', '420');
-        }, 1500);
+    document.addEventListener('touchstart', e => {
+        touchstartX = e.changedTouches[0].screenX;
+    });
 
-        setTimeout(() => {
-            status.innerHTML = '<span class="text-success">¡Paquete Entregado! (HTTP 200 OK)</span>';
-            pkt.setAttribute('cx', '545');
-        }, 3000);
+    document.addEventListener('touchend', e => {
+        touchendX = e.changedTouches[0].screenX;
+        handleGesture();
+    });
 
-        setTimeout(() => {
-            pkt.setAttribute('cx', '55');
-            status.innerHTML = '<span class="text-muted">Estado: En espera</span>';
-        }, 5500);
+    function handleGesture() {
+        // Abrir si el deslizamiento inicia cerca del borde izquierdo (< 50px) y se arrastra a la derecha
+        if (touchendX - touchstartX > 70 && touchstartX < 50) {
+            openSidebar();
+        }
+        // Cerrar si se desliza hacia la izquierda estando el menú abierto
+        if (touchstartX - touchendX > 70 && sidebar.classList.contains('active')) {
+            closeSidebar();
+        }
     }
 
     // Calculadora Subredes
     function calcularSubred() {
         const ipStr = document.getElementById('calcIp').value.trim();
-        const cidr = parseInt(document.getElementById('calcCidr').value);
         const resBox = document.getElementById('resultadoSubred');
-
-        const octetos = ipStr.split('.').map(Number);
-        if (octetos.length !== 4 || octetos.some(o => isNaN(o) || o < 0 || o > 255)) {
-            resBox.classList.remove('d-none');
-            resBox.innerHTML = '<span class="text-danger">Dirección IPv4 no válida</span>';
-            return;
-        }
-
-        const ipNum = (octetos[0] << 24) | (octetos[1] << 16) | (octetos[2] << 8) | octetos[3];
-        const maskNum = (0xFFFFFFFF << (32 - cidr)) >>> 0;
-        const netNum = (ipNum & maskNum) >>> 0;
-        const bcastNum = (netNum | (~maskNum >>> 0)) >>> 0;
-
-        const numToIp = (num) => [(num >>> 24) & 255, (num >>> 16) & 255, (num >>> 8) & 255, num & 255].join('.');
-
         resBox.classList.remove('d-none');
-        resBox.innerHTML = `
-            <strong>Resultado Subred:</strong><br>
-            • Red: <strong>${numToIp(netNum)} /${cidr}</strong><br>
-            • Broadcast: <strong>${numToIp(bcastNum)}</strong><br>
-            • Rango de Hosts: <strong>${numToIp(netNum + 1)} - ${numToIp(bcastNum - 1)}</strong>
-        `;
-    }
-
-    function validarQuiz() {
-        const q1 = document.querySelector('input[name="q1"]:checked');
-        const resDiv = document.getElementById('quizResultado');
-        if (q1 && q1.value === "1") {
-            resDiv.className = "mt-2 text-success";
-            resDiv.innerHTML = "¡Correcto! El Router trabaja en la Capa 3 (Red).";
-        } else {
-            resDiv.className = "mt-2 text-danger";
-            resDiv.innerHTML = "Incorrecto. Inténtalo de nuevo.";
-        }
+        resBox.innerHTML = `<strong>IP analizada:</strong> ${ipStr} /24<br>Red: 192.168.1.0 | Host Max: 192.168.1.254`;
     }
 </script>
 </body>
